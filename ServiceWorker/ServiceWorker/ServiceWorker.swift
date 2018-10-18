@@ -75,7 +75,7 @@ import PromiseKit
             exec.perform(#selector(ServiceWorkerExecutionEnvironment.ensureFinished(responsePromise:)), on: exec.thread, with: passthrough, waitUntilDone: false)
             return promise
         }
-        return Promise(value: ())
+        return Promise.value(())
     }
 
     /// An initialiser to specifically call in Objective-C - the InstallState enum
@@ -103,7 +103,7 @@ import PromiseKit
     internal func getExecutionEnvironment() -> Promise<ServiceWorkerExecutionEnvironment> {
 
         if let exec = _executionEnvironment {
-            return Promise(value: exec)
+            return Promise.value(exec)
         }
 
         if let loadingPromise = self.loadingExecutionEnvironmentPromise {
@@ -124,7 +124,7 @@ import PromiseKit
 
         return firstly { () -> Promise<ServiceWorkerExecutionEnvironment> in
 
-            let (promise, fulfill, reject) = Promise<ServiceWorkerExecutionEnvironment>.pending()
+            let (promise, seal) = Promise<ServiceWorkerExecutionEnvironment>.pending()
 
             // The execution environment saves Thread.currentThread in its initialiser, so we don't
             // need to assign the variable here. We create the environment on-thread to try to keep
@@ -136,7 +136,7 @@ import PromiseKit
                     let env = try ServiceWorkerExecutionEnvironment(self)
 
                     // Return the promise early, before we run...
-                    fulfill(env)
+                    seal.fulfill(env)
 
                     // This function runs an infinite loop, until env.stop() is called, at which
                     // point the run loop is terminated and this function will complete, closing
@@ -145,13 +145,13 @@ import PromiseKit
                     env.run()
 
                 } catch {
-                    reject(error)
+                    seal.reject(error)
                 }
             }
 
             return promise
         }
-        .then { env in
+        .then { env -> Promise<ServiceWorkerExecutionEnvironment> in
 
             // Now that we have a context, we need to load the actual worker script.
 
@@ -170,12 +170,12 @@ import PromiseKit
             env.perform(#selector(ServiceWorkerExecutionEnvironment.evaluateScript(_:)), on: env.thread, with: eval, waitUntilDone: false)
 
             let finalChain = promise
-                .then { (_) -> ServiceWorkerExecutionEnvironment in
+                .map { (_) -> ServiceWorkerExecutionEnvironment in
                     self._executionEnvironment = env
                     self.setJSContextDebuggingName()
                     return env
                 }
-                .always {
+                .ensure {
 
                     // Now that this promise is done, clear it out. It doesn't really matter because getExecutionEnvironment()
                     // will now just return self._executionEnvironment, but worth tidying up for when we implement spinning
@@ -232,9 +232,8 @@ import PromiseKit
         let call = ServiceWorkerExecutionEnvironment.WithJSContextCall(cb)
 
         return self.getExecutionEnvironment()
-            .then { exec in
+            .done { exec in
                 exec.perform(#selector(ServiceWorkerExecutionEnvironment.withJSContext), on: exec.thread, with: call, waitUntilDone: false)
-                return call.resolveVoid()
             }
     }
 
@@ -257,9 +256,8 @@ import PromiseKit
         } else {
 
             return self.getExecutionEnvironment()
-                .then { exec in
+                .done { exec in
                     exec.perform(#selector(ServiceWorkerExecutionEnvironment.dispatchEvent), on: exec.thread, with: call, waitUntilDone: false)
-                    return call.resolveVoid()
                 }
         }
     }

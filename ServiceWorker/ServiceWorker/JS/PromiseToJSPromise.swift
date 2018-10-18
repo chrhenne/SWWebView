@@ -14,7 +14,7 @@ public extension Promise {
 
         do {
             let jsp = try JSContextPromise(newPromiseInContext: ctx)
-            self.then { response -> Void in
+            self.done { response -> Void in
                 jsp.fulfill(response)
             }
             .catch { error in

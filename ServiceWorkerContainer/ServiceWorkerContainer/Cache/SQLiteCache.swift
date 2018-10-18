@@ -110,7 +110,7 @@ import PromiseKit
                 return (db.lastNumberChanges ?? 0) > 0
             }
 
-            return Promise(value: rowsChanged)
+            return Promise.value(rowsChanged)
         }.toJSPromiseInCurrentContext()
     }
 
@@ -172,7 +172,7 @@ import PromiseKit
                     return requests
                 }
             }
-            return Promise(value: requests)
+            return Promise.value(requests)
         }.toJSPromiseInCurrentContext()
     }
 }

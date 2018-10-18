@@ -18,7 +18,7 @@ class DBConnectionPool {
 
     static func inConnection<T>(at url: URL, type: DatabaseType, _ callback: (SQLiteConnection) throws -> Promise<T>) -> Promise<T> {
 
-        return firstly {
+        return firstly { () -> Promise<T> in
             let connection = try DBConnectionPool.getConnection(for: url, type: type)
             return try callback(connection)
         }

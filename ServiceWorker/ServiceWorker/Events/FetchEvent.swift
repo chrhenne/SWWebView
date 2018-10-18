@@ -58,7 +58,7 @@ import PromiseKit
             // if e.respondWith() was never called that's perfectly valid - we resolve the
             // promise with no FetchResponse having been provided.
 
-            return Promise(value: nil)
+            return Promise.value(nil)
         }
 
         guard let exec = ServiceWorkerExecutionEnvironment.contexts.object(forKey: promise.context) else {

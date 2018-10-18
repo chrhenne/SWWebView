@@ -842,7 +842,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/CommonCryptoModuleMap\"\ncat <<EOF > \"${BUILT_PRODUCTS_DIR}/CommonCryptoModuleMap/module.modulemap\"\nmodule CommonCrypto [system] {\n    header \"${SDKROOT}/usr/include/CommonCrypto/CommonCrypto.h\"\n    export *\n}\nEOF";
+			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/CommonCryptoModuleMap\"\ncat <<EOF > \"${BUILT_PRODUCTS_DIR}/CommonCryptoModuleMap/module.modulemap\"\nmodule SWCommonCrypto [system] {\n    header \"${SDKROOT}/usr/include/CommonCrypto/CommonCrypto.h\"\n    export *\n}\nEOF\n";
 		};
 		8A2360041F34F50000969268 /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -908,7 +908,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

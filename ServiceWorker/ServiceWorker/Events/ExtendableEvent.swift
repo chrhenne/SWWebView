@@ -54,7 +54,7 @@ import PromiseKit
 
         // Create a native promise to bridge the JS promise success/failure
 
-        let (promise, fulfill, reject) = Promise<Void>.pending()
+        let (promise, seal) = Promise<Void>.pending()
 
         // We run this inside a withJSContext() call because we create a JSValue then
         // execute it - withJSContext runs on the worker thread, so we know we won't be leaking
@@ -69,7 +69,7 @@ import PromiseKit
                 // (unlike, say, FetchEvent) so we don't need to worry about
                 // what the return value actually is.
 
-                fulfill(())
+                seal.fulfill(())
             }
 
             let failure: @convention(block) (JSValue) -> Void = { val in
@@ -78,7 +78,7 @@ import PromiseKit
                 // error. We can probably improve on this and add more useful error information.
 
                 let err = ErrorMessage(val.objectForKeyedSubscript("message").toString())
-                reject(err)
+                seal.reject(err)
             }
 
             // If we don't cast to AnyObject the functions don't seem to work in a JSContext.
@@ -118,7 +118,7 @@ import PromiseKit
 
             promise
 
-        }.always {
+        }.ensure {
 
             // There's no point keeping onto the JSValues that were attached with waitUntil()
             // once the promise has been resolved or rejected, so we'll proactively clear them out.

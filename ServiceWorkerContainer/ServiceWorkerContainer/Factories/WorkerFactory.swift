@@ -140,7 +140,7 @@ public class WorkerFactory {
                         throw ErrorMessage("This worker appears to already have content in it. Content can only be set once.")
                     }
 
-                    return Promise(value: ())
+                    return Promise.value(())
                 }
             }
         }
@@ -188,7 +188,7 @@ public class WorkerFactory {
                     }
 
                     return StreamPipe.pipeSHA256(from: fileStream, to: writeStream, bufferSize: 32768)
-                        .then { hash in
+                        .done { hash in
                             try db.update(sql: "UPDATE workers SET content_hash = ? WHERE worker_id = ?", values: [hash, worker.id])
                         }
                 }

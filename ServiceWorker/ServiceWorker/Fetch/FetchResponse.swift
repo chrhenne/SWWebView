@@ -88,7 +88,7 @@ import JavaScriptCore
     /// chain off this to do whatever they need to with the data. Not in the web API spec, but is roughly
     /// a mirror of arrayBuffer()
     func data() -> Promise<Data> {
-        return firstly {
+        return firstly {() -> Promise<Data> in
             try self.markBodyUsed()
 
             let memoryStream = OutputStream.toMemory()
@@ -99,14 +99,14 @@ import JavaScriptCore
 
             try streamPipe.add(stream: memoryStream)
             return streamPipe.pipe()
-                .then { () -> Data in
+                .map { () -> Data in
                     guard let data = memoryStream.property(forKey: Stream.PropertyKey.dataWrittenToMemoryStreamKey) as? Data else {
                         throw ErrorMessage("Could not fetch in-memory data from stream")
                     }
 
                     return data
                 }
-        }
+            }
     }
 
     /// Another non-spec addition. Because we don't know the length of responses (might not have a Content-Length header,
@@ -121,7 +121,8 @@ import JavaScriptCore
         // The idea being that the code using fileDownload() can relatively seamlessly pass a result back
         // into the main promise chain without worrying about manually deleting the temp file.
 
-        return firstly {
+        return firstly { () -> Promise<T> in
+            
             try self.markBodyUsed()
 
             guard let streamPipe = self.streamPipe else {
@@ -161,7 +162,7 @@ import JavaScriptCore
 
                     return try callback(downloadPath, size)
                 }
-                .always {
+                .ensure {
 
                     // Now that our promise has been resolved (successfully or not)
                     // we can delete the temporary file we just downloaded.
@@ -171,7 +172,7 @@ import JavaScriptCore
                     } catch {
                         Log.error?("Could not delete temporary fetch file at \(downloadPath.path)")
                     }
-                }
+            }
         }
     }
 
@@ -180,7 +181,7 @@ import JavaScriptCore
     func json() -> Promise<Any?> {
 
         return self.data()
-            .then { data in
+            .map { data in
                 try JSONSerialization.jsonObject(with: data, options: [])
             }
     }
@@ -222,7 +223,7 @@ import JavaScriptCore
 
         let encoding = FetchResponse.guessCharsetFrom(headers: headers)
         return self.data()
-            .then { data -> String in
+            .map { data -> String in
                 guard let str = String(data: data, encoding: encoding) else {
                     throw ErrorMessage("Could not decode string content")
                 }

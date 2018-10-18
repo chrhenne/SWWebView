@@ -72,7 +72,7 @@ import JavaScriptCore
 
     func update() -> Promise<Void> {
 
-        return firstly {
+        return firstly { () -> Promise<Void> in
 
             var updateWorker: ServiceWorker?
 
@@ -92,11 +92,10 @@ import JavaScriptCore
             let request = try self.factory.workerFactory.getUpdateRequest(forExistingWorker: worker)
 
             return FetchSession.default.fetch(request)
-                .then { res in
+                .done { res in
 
                     if res.status == 304 {
                         Log.info?("Ran update check for \(worker.url), received Not Modified response")
-                        return Promise(value: ())
                     }
 
                     if res.ok != true {
@@ -105,7 +104,7 @@ import JavaScriptCore
 
                     let newWorker = try self.factory.createNewInstallingWorker(for: request.url, in: self)
 
-                    return self.processHTTPResponse(res, newWorker: newWorker, byteCompareWorker: worker)
+                    self.processHTTPResponse(res, newWorker: newWorker, byteCompareWorker: worker)
                 }
         }
     }
@@ -124,8 +123,8 @@ import JavaScriptCore
 
             let worker = try self.factory.createNewInstallingWorker(for: workerURL, in: self)
 
-            return FetchSession.default.fetch(workerURL)
-                .then { res -> RegisterReturn in
+            return FetchSession.default.fetch(url:workerURL)
+                .map { res -> RegisterReturn in
 
                     if res.ok == false {
                         // We couldn't fetch the worker JS, so we immediately delete the worker
@@ -151,20 +150,20 @@ import JavaScriptCore
                     if try self.factory.workerFactory.isByteIdentical(newWorker, compare) == true {
                         Log.info?("New worker is byte identical to old one. Clearing installing worker...")
                         try self.factory.clearInstallingWorker(in: self)
-                        return Promise(value: ())
+                        return Promise.value(())
                     }
                 }
 
                 return self.install(worker: newWorker)
-                    .then {
+                    .done {
 
                         // Workers move from installed directly to activating if they have called
                         // self.skipWaiting() OR if we have no active worker currently.
 
                         if newWorker.skipWaitingStatus == true || self.active == nil {
-                            return self.activate(worker: newWorker)
+                            self.activate(worker: newWorker)
                         } else {
-                            return Promise(value: ())
+                            Promise.value(())
                         }
                     }
             }
@@ -172,7 +171,7 @@ import JavaScriptCore
 
     fileprivate func install(worker: ServiceWorker) -> Promise<Void> {
 
-        return firstly {
+        return firstly { () -> Promise<Void> in
             if self.installing != worker {
                 throw ErrorMessage("Can only install a worker if it's in the installing slot")
             }
@@ -183,7 +182,7 @@ import JavaScriptCore
                     ev.resolve(in: worker)
                 }
         }
-        .then { () -> Void in
+        .done { () -> Void in
             try self.factory.workerFactory.update(worker: worker, toInstallState: .installed)
             try self.set(workerSlot: .waiting, to: worker)
             try self.set(workerSlot: .installing, to: nil, makeOldRedundant: false)
@@ -204,7 +203,7 @@ import JavaScriptCore
 
         let moveToActiveImmediately = self.active == nil
 
-        return firstly {
+        return firstly { ()->Promise<Void> in
 
             if self.waiting != worker {
                 throw ErrorMessage("Can only activate a worker if it's in the waiting slot")
@@ -223,7 +222,7 @@ import JavaScriptCore
                     ev.resolve(in: worker)
                 }
         }
-        .then { () -> Void in
+        .done { () -> Void in
             try self.factory.workerFactory.update(worker: worker, toInstallState: .activated)
             if moveToActiveImmediately == false {
                 try self.set(workerSlot: .active, to: worker)
@@ -285,7 +284,7 @@ import JavaScriptCore
 
     public func unregister() -> Promise<Void> {
 
-        return firstly {
+        return firstly { () -> Promise<Void> in
 
             try self.workers.forEach { slot in
                 try self.factory.workerFactory.update(worker: slot.value, toInstallState: .redundant)
@@ -297,7 +296,7 @@ import JavaScriptCore
             self._unregistered = true
             GlobalEventLog.notifyChange(self)
 
-            return Promise(value: ())
+            return Promise.value(())
 
             //            let allWorkers = [self.active, self.waiting, self.installing, self.redundant]
             //

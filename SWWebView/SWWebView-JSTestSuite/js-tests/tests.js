@@ -11097,35 +11097,35 @@ var index = chai;
 
 var index_1 = index.assert;
 
-describeIfApp("Fetch grafts", function () {
-    it("Grafts fetch bodies", function () {
-        return fetch("/ping-with-body", {
-            method: swwebviewSettings.API_REQUEST_METHOD,
-            body: JSON.stringify({ value: "test-string" })
-        })
-            .then(function (res) { return res.json(); })
-            .then(function (json) {
-            index_1.equal(json.pong, "test-string");
-        });
-    });
-    it("Grafts XMLHttpRequest bodies", function (done) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                try {
-                    var data = JSON.parse(this.responseText);
-                    index_1.equal(data.pong, "test-string");
-                }
-                catch (error) {
-                    done(error);
-                }
-                done();
-            }
-        };
-        xhttp.open(swwebviewSettings.API_REQUEST_METHOD, "/ping-with-body", true);
-        xhttp.send(JSON.stringify({ value: "test-string" }));
-    });
-});
+//describeIfApp("Fetch grafts", function () {
+//    it("Grafts fetch bodies", function () {
+//        return fetch("/ping-with-body", {
+//            method: swwebviewSettings.API_REQUEST_METHOD,
+//            body: JSON.stringify({ value: "test-string" })
+//        })
+//            .then(function (res) { return res.json(); })
+//            .then(function (json) {
+//            index_1.equal(json.pong, "test-string");
+//        });
+//    });
+//    it("Grafts XMLHttpRequest bodies", function (done) {
+//        var xhttp = new XMLHttpRequest();
+//        xhttp.onreadystatechange = function () {
+//            if (this.readyState == 4 && this.status == 200) {
+//                try {
+//                    var data = JSON.parse(this.responseText);
+//                    index_1.equal(data.pong, "test-string");
+//                }
+//                catch (error) {
+//                    done(error);
+//                }
+//                done();
+//            }
+//        };
+//        xhttp.open(swwebviewSettings.API_REQUEST_METHOD, "/ping-with-body", true);
+//        xhttp.send(JSON.stringify({ value: "test-string" }));
+//    });
+//});
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.

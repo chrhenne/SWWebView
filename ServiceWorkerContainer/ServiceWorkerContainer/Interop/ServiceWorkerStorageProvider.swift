@@ -45,7 +45,7 @@ public class ServiceWorkerStorageProvider: ServiceWorkerDelegate {
         }
 
         self.downloadAndCacheScript(id: worker.id, url: script)
-            .then { body in
+            .done { body in
                 callback(nil, body)
             }
             .catch { error in
@@ -55,7 +55,7 @@ public class ServiceWorkerStorageProvider: ServiceWorkerDelegate {
 
     fileprivate func downloadAndCacheScript(id: String, url: URL) -> Promise<String> {
 
-        return FetchSession.default.fetch(url)
+        return FetchSession.default.fetch(url:url)
 
             .then { res in
 
@@ -77,7 +77,7 @@ public class ServiceWorkerStorageProvider: ServiceWorkerDelegate {
                         }
 
                         return StreamPipe.pipeSHA256(from: fileStream, to: stream, bufferSize: 1024)
-                            .then { hash -> String in
+                            .map { hash -> String in
 
                                 // Now we update the hash for the script
                                 try db.update(sql: "UPDATE worker_imported_scripts SET content_hash = ? WHERE worker_id = ? AND url = ?", values: [hash, id, url])

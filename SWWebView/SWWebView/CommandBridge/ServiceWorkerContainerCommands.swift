@@ -19,14 +19,14 @@ class ServiceWorkerContainerCommands {
         }
 
         return eventStream.container.getRegistration(scope)
-            .then { reg in
+            .map { reg in
                 reg?.toJSONSuitableObject()
             }
     }
 
     static func getRegistrations(eventStream: EventStream, json _: AnyObject?) throws -> Promise<Any?>? {
         return eventStream.container.getRegistrations()
-            .then { regs in
+            .map { regs in
                 regs.map { $0.toJSONSuitableObject() }
             }
     }
@@ -52,8 +52,9 @@ class ServiceWorkerContainerCommands {
         }
 
         return eventStream.container.register(workerURL: workerURL, options: options)
-            .then { result in
-                result.toJSONSuitableObject()
+            .map { result in
+                let registration:ServiceWorkerRegistration = result
+                return registration.toJSONSuitableObject()
             }
     }
 }

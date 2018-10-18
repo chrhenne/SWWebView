@@ -66,10 +66,12 @@ public class EventStream: NSObject {
         // Because the container doesn't contain a direct reference to its registrations,
         // we manually grab them, and send them down as well.
         self.container.getRegistrations()
-            .then { regs in
+            .map { regs in
                 // Registrations send down their corresponding worker objects, so we don't
                 // need to push those too.
-                regs.forEach { self.sendUpdate(identifier: "serviceworkeregistration", object: $0) }
+                regs.forEach {reg in
+                    let serviceWorkerReg:ServiceWorkerRegistration = reg
+                    self.sendUpdate(identifier: "serviceworkeregistration", object: serviceWorkerReg) }
             }
             .catch { error in
                 Log.error?("Failed to send existing registrations to event stream: \(error)")

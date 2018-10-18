@@ -23,7 +23,7 @@ class MessagePortHandler {
 
             savedPort.port?.postMessage(message)
 
-            return Promise(value: nil)
+            return Promise.value(nil)
         }
     }
 

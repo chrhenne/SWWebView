@@ -5,12 +5,11 @@ import JavaScriptCore
 extension ServiceWorkerExecutionEnvironment {
 
     class PromiseWrappedCall: NSObject {
-        internal let fulfill: (Any?) -> Void
-        internal let reject: (Error) -> Void
+        internal let seal : Resolver<Any?>
         internal let promise: Promise<Any?>
 
         override init() {
-            (self.promise, self.fulfill, self.reject) = Promise<Any?>.pending()
+            (self.promise, self.seal) = Promise<Any?>.pending()
         }
 
         func resolve() -> Promise<Any?> {
@@ -18,7 +17,7 @@ extension ServiceWorkerExecutionEnvironment {
         }
 
         func resolveVoid() -> Promise<Void> {
-            return self.promise.then { _ in () }
+            return self.promise.done { _ in () }
         }
     }
 

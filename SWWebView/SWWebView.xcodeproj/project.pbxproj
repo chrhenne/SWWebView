@@ -24,7 +24,6 @@
 		8A5D982E1F3E0D77002E521F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A5D982D1F3E0D77002E521F /* Assets.xcassets */; };
 		8A5D98311F3E0D77002E521F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A5D982F1F3E0D77002E521F /* LaunchScreen.storyboard */; };
 		8A5D98361F3E0E6A002E521F /* SWWebView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AA76F4E1F38B81600EFB4E1 /* SWWebView.framework */; };
-		8A5D98381F3E0F49002E521F /* GCDWebServers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A5D98371F3E0F49002E521F /* GCDWebServers.framework */; };
 		8A5D983C1F3E167A002E521F /* js-tests in Resources */ = {isa = PBXBuildFile; fileRef = 8A5D98391F3E0F82002E521F /* js-tests */; };
 		8A5D983E1F3E50D2002E521F /* SWURLSchemeTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5D983D1F3E50D2002E521F /* SWURLSchemeTask.swift */; };
 		8A6F15411F42527A0025DA50 /* ServiceWorkerRegistrationCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6F15401F42527A0025DA50 /* ServiceWorkerRegistrationCommands.swift */; };
@@ -95,7 +94,6 @@
 		8A5D982D1F3E0D77002E521F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A5D98301F3E0D77002E521F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A5D98321F3E0D77002E521F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8A5D98371F3E0F49002E521F /* GCDWebServers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GCDWebServers.framework; path = ../Carthage/Build/iOS/GCDWebServers.framework; sourceTree = "<group>"; };
 		8A5D98391F3E0F82002E521F /* js-tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "js-tests"; sourceTree = "<group>"; };
 		8A5D983D1F3E50D2002E521F /* SWURLSchemeTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SWURLSchemeTask.swift; sourceTree = "<group>"; };
 		8A6F15401F42527A0025DA50 /* ServiceWorkerRegistrationCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceWorkerRegistrationCommands.swift; sourceTree = "<group>"; };
@@ -122,7 +120,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8A5D98381F3E0F49002E521F /* GCDWebServers.framework in Frameworks */,
 				8AABC41F1F6082DA00429EF3 /* SWWebView.framework in Frameworks */,
 				8AABC4271F60839600429EF3 /* ServiceWorker.framework in Frameworks */,
 				8A5D98361F3E0E6A002E521F /* SWWebView.framework in Frameworks */,
@@ -236,7 +233,6 @@
 		8AF85D511F38BA1D001B0A87 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8A5D98371F3E0F49002E521F /* GCDWebServers.framework */,
 				8AF85D741F3A2747001B0A87 /* ServiceWorker.framework */,
 				8A5D980B1F3DF55B002E521F /* ServiceWorker.framework */,
 				8A5D980A1F3DF55B002E521F /* ServiceWorkerContainer.framework */,
@@ -410,7 +406,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		8A5D983B1F3E1030002E521F /* Copy Carthage Dependencies */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -442,7 +438,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/js-src\nnpm run build";
+			shellScript = "cd ${SRCROOT}/js-src\nnpm run build\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

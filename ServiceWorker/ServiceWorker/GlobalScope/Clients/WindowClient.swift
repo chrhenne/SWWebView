@@ -22,13 +22,13 @@ import PromiseKit
 
     func focus() -> JSValue? {
 
-        return Promise<Client> { fulfill, reject in
+        return Promise<Client> { seal in
 
             wrapAroundWindow.focus { err, windowClient in
                 if let error = err {
-                    reject(error)
+                    seal.reject(error)
                 } else if let client = windowClient {
-                    fulfill(Client.getOrCreate(from: client))
+                    seal.fulfill(Client.getOrCreate(from: client))
                 }
             }
         }
@@ -37,16 +37,16 @@ import PromiseKit
 
     func navigate(_ url: String) -> JSValue? {
 
-        return Promise<WindowClientProtocol> { fulfill, reject in
+        return Promise<WindowClientProtocol> { seal in
             guard let parsedURL = URL(string: url, relativeTo: nil) else {
-                return reject(ErrorMessage("Could not parse URL returned by native implementation"))
+                return seal.reject(ErrorMessage("Could not parse URL returned by native implementation"))
             }
 
             self.wrapAroundWindow.navigate(to: parsedURL) { err, windowClient in
                 if let error = err {
-                    reject(error)
+                    seal.reject(error)
                 } else if let window = windowClient {
-                    fulfill(window)
+                    seal.fulfill(window)
                 }
             }
         }.toJSPromiseInCurrentContext()

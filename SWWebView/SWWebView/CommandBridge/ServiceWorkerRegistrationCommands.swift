@@ -13,18 +13,17 @@ class ServiceWorkerRegistrationCommands {
         }
 
         return eventStream.container.getRegistrations()
-            .then { registrations in
+            .then { registrations -> Promise<Any?> in
 
                 guard let registration = registrations.first(where: { $0.id == registrationID }) else {
                     throw ErrorMessage("Registration does not exist")
                 }
 
-                return registration.unregister()
-            }
-            .then {
-                [
-                    "success": true
-                ]
-            }
+                return registration.unregister().map { _ -> [String: Bool] in
+                    [
+                        "success": true
+                    ]
+                }
+        }
     }
 }

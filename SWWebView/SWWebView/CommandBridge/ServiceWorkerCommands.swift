@@ -78,7 +78,7 @@ class ServiceWorkerCommands {
                         Log.error?("Dispatch of MessageEvent to worker failed: \(error)")
                     }
             }
-            return Promise(value: [
+            return Promise.value([
                 "transferred": wrappedPorts.map { $0.id }
             ])
         }

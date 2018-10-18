@@ -67,7 +67,7 @@ class FetchTask: NSObject {
         }
 
         if self.request.redirect == .Error {
-            self.hasResponsePromise.reject(ErrorMessage("Received redirect, FetchRequest redirect set to 'error'"))
+            self.hasResponsePromise.resolver.reject(ErrorMessage("Received redirect, FetchRequest redirect set to 'error'"))
         }
 
         return false
@@ -121,6 +121,6 @@ class FetchTask: NSObject {
 
         // And resolve our hasResponse promise with that response.
 
-        self.hasResponsePromise.fulfill(fetchResponse)
+        self.hasResponsePromise.resolver.fulfill(fetchResponse)
     }
 }

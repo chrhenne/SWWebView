@@ -41,7 +41,7 @@ import JavaScriptCore
 
     /// A convenience function to quickly grab a URL. Doesn't deal with origin as it's intended to
     /// be used within internal APIs, not in worker environments.
-    public func fetch(_ url: URL) -> Promise<FetchResponseProtocol> {
+    public func fetch(url: URL) -> Promise<FetchResponseProtocol> {
         let request = FetchRequest(url: url)
         return self.fetch(request)
     }
@@ -49,12 +49,12 @@ import JavaScriptCore
     /// The main function - actually runs a fetch task, returning a FetchResponseProxy to then chain
     /// on whatever piping/data transformation is needed.
     public func fetch(_ request: FetchRequest, fromOrigin: URL? = nil) -> Promise<FetchResponseProtocol> {
-        return Promise(value: ())
-            .then(on: self.dispatchQueue, execute: {
+        return Promise.value(())
+            .then(on: self.dispatchQueue, flags:nil, {
                 self.performCORSCheck(for: request, inOrigin: fromOrigin)
-            })
+                })
 
-            .then(on: self.dispatchQueue, execute: { corsRestrictions -> Promise<FetchResponseProtocol> in
+            .then(on: self.dispatchQueue, flags:nil, { corsRestrictions -> Promise<FetchResponseProtocol> in
 
                 var requestToUse = request
 
@@ -86,7 +86,7 @@ import JavaScriptCore
                 task.resume()
 
                 return fetchTask.hasResponse
-                    .then(on: self.dispatchQueue, execute: { response -> FetchResponseProtocol in
+                    .compactMap(on: self.dispatchQueue, flags:nil, { response -> FetchResponseProtocol in
 
                         // Depending on the nature of the request, mode, cross-domain, etc., we
                         // want to return the correct response type.
@@ -99,7 +99,7 @@ import JavaScriptCore
                             return FetchResponseProxy(from: response, type: .Basic)
                         }
                     })
-                    .always(on: self.dispatchQueue, execute: { () -> Void in
+                    .ensure(on: self.dispatchQueue, flags:nil, { () -> Void in
 
                         // Now that we have a reference to the response below (which itself contains
                         // the task) we can remove the fetch task from our set.
@@ -117,7 +117,7 @@ import JavaScriptCore
 
         guard let origin = inOrigin else {
             // No origin - no CORS check to perform
-            return Promise(value: FetchCORSRestrictions(isCrossDomain: false, allowedHeaders: []))
+            return Promise.value(FetchCORSRestrictions(isCrossDomain: false, allowedHeaders: []))
         }
 
         guard let host = origin.host, let scheme = origin.scheme else {
@@ -128,7 +128,7 @@ import JavaScriptCore
 
         if request.mode != .CORS || isCrossOrigin == false {
             // This is not a CORS request, so we can skip all this.
-            return Promise(value: FetchCORSRestrictions(isCrossDomain: isCrossOrigin, allowedHeaders: []))
+            return Promise.value(FetchCORSRestrictions(isCrossDomain: isCrossOrigin, allowedHeaders: []))
         }
 
         let optionsRequest = FetchRequest(url: request.url)
@@ -148,7 +148,7 @@ import JavaScriptCore
         optionsRequest.headers.set("Access-Control-Request-Method", request.method)
 
         return self.fetch(optionsRequest)
-            .then(on: self.dispatchQueue, execute: { res -> FetchCORSRestrictions in
+            .map(on: self.dispatchQueue, flags:nil, { res -> FetchCORSRestrictions in
 
                 // The OPTIONS response is required to specify which origins are allowed. A wildcard
                 // response is valid: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin

@@ -21,30 +21,30 @@ extension Promise {
     /// And an extension method on Promise to create a passthrough promise
     static func makePassthrough() -> (promise: Promise<T>, passthrough: PromisePassthrough) {
 
-        let (promise, fulfill, reject) = Promise<T>.pending()
+        let (promise, seal) = Promise<T>.pending()
 
         let fulfillCast = { (result: Any?) in
 
             if T.self == Void.self, let voidResult = () as? T {
-                fulfill(voidResult)
+                seal.fulfill(voidResult)
                 return
             }
 
             guard let cast = result as? T else {
-                reject(ErrorMessage("Could not cast \(result ?? "nil") to desired type \(T.self)"))
+                seal.reject(ErrorMessage("Could not cast \(result ?? "nil") to desired type \(T.self)"))
                 return
             }
-            fulfill(cast)
+            seal.fulfill(cast)
         }
 
-        let passthrough = PromisePassthrough(fulfill: fulfillCast, reject: reject)
+        let passthrough = PromisePassthrough(fulfill: fulfillCast, reject: seal.reject)
 
         return (promise, passthrough)
     }
 
     /// And to turn any already-created promise into a passthrough.
     func passthrough(_ target: PromisePassthrough) {
-        self.then { result in
+        self.done { result in
             target.fulfill(result)
         }
         .catch { error in

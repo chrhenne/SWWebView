@@ -88,7 +88,7 @@ import ServiceWorker
 
     public func getRegistrations() -> Promise<[ServiceWorkerRegistration]> {
         do {
-            return Promise(value: try self.registrationFactory.getAll(withinOriginOf: self.url))
+            return Promise.value(try self.registrationFactory.getAll(withinOriginOf: self.url))
         } catch {
             return Promise(error: error)
         }
@@ -109,7 +109,7 @@ import ServiceWorker
                 throw ErrorMessage("Cannot get a registration that is not from the same origin")
             }
 
-            return Promise(value: try self.registrationFactory.get(forPageURL: scopeToCheck))
+            return Promise.value(try self.registrationFactory.get(forPageURL: scopeToCheck))
 
         } catch {
             return Promise(error: error)
@@ -118,7 +118,7 @@ import ServiceWorker
 
     public func register(workerURL: URL, options: ServiceWorkerRegistrationOptions?) -> Promise<ServiceWorkerRegistration> {
 
-        return firstly {
+        return firstly { ()->Promise<ServiceWorkerRegistration> in
 
             if workerURL.host != url.host {
                 throw ErrorMessage("Service worker scope must be on the same domain as both the page and worker URL")
@@ -167,10 +167,10 @@ import ServiceWorker
             let reg = try existingRegistration ?? self.registrationFactory.create(scope: scopeURL)
 
             return reg.register(workerURL)
-                .then { result -> ServiceWorkerRegistration in
+                .map { result -> ServiceWorkerRegistration in
 
                     result.registerComplete
-                        .then { () -> Void in
+                        .done {
                             // If our registration was successful and this container is within
                             // its scope, we should set it as the ready registration
 

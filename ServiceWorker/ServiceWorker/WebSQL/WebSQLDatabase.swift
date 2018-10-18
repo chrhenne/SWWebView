@@ -79,17 +79,17 @@ import PromiseKit
 
         if self.transactionQueue.count > 0 {
             Log.info?("\(self.transactionQueue.count) transactions pending on close...")
-            return Promise { fulfill, _ in
+            return Promise { seal in
                 self.onTransactionsDrained = {
                     Log.info?("Transactions complete, closing...")
                     self.forceClose()
-                    fulfill(())
+                    seal.fulfill(())
                 }
             }
         } else {
             Log.info?("No pending transactions, closing immediately")
             self.forceClose()
-            return Promise(value: ())
+            return Promise.value(())
         }
     }
 

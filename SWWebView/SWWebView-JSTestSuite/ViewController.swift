@@ -47,7 +47,7 @@ class ViewController: UIViewController {
     func addStubs() {
         SWWebViewBridge.routes["/ping"] = { _, _ in
 
-            Promise(value: [
+            Promise.value([
                 "pong": true
             ])
         }
@@ -56,7 +56,7 @@ class ViewController: UIViewController {
 
             var responseText = json?["value"] as? String ?? "no body found"
 
-            return Promise(value: [
+            return Promise.value([
                 "pong": responseText
             ])
         }
