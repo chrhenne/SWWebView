@@ -33,6 +33,7 @@
 		8AF85D851F3A28C3001B0A87 /* PromiseAssert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF85D801F3A289B001B0A87 /* PromiseAssert.swift */; };
 		8AF85D871F3A2A0C001B0A87 /* ServiceWorkerContainerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF85D861F3A2A0C001B0A87 /* ServiceWorkerContainerExtensions.swift */; };
 		8AF85D8E1F3A31AA001B0A87 /* DatabaseMigrations in Resources */ = {isa = PBXBuildFile; fileRef = 8AF85D8D1F3A3134001B0A87 /* DatabaseMigrations */; };
+		8CB3F4E5F28107B9376A7AA6 /* Pods_ServiceWorkerContainer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A523DCB4B1CE06CABAD346C3 /* Pods_ServiceWorkerContainer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +97,9 @@
 		8AF85D821F3A289B001B0A87 /* TestWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestWeb.swift; sourceTree = "<group>"; };
 		8AF85D861F3A2A0C001B0A87 /* ServiceWorkerContainerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceWorkerContainerExtensions.swift; sourceTree = "<group>"; };
 		8AF85D8D1F3A3134001B0A87 /* DatabaseMigrations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DatabaseMigrations; sourceTree = "<group>"; };
+		A523DCB4B1CE06CABAD346C3 /* Pods_ServiceWorkerContainer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ServiceWorkerContainer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF70678477B09D6AC7519BA4 /* Pods-ServiceWorkerContainer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ServiceWorkerContainer.debug.xcconfig"; path = "Target Support Files/Pods-ServiceWorkerContainer/Pods-ServiceWorkerContainer.debug.xcconfig"; sourceTree = "<group>"; };
+		C6A6120AEAAB945DB3FD2467 /* Pods-ServiceWorkerContainer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ServiceWorkerContainer.release.xcconfig"; path = "Target Support Files/Pods-ServiceWorkerContainer/Pods-ServiceWorkerContainer.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +108,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AB72E1D1F35FED70049117E /* ServiceWorker.framework in Frameworks */,
+				8CB3F4E5F28107B9376A7AA6 /* Pods_ServiceWorkerContainer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +139,7 @@
 				8A23601E1F35FDCC00969268 /* ServiceWorkerContainerTests */,
 				8A2360121F35FDCC00969268 /* Products */,
 				8A2360461F35FE4900969268 /* Frameworks */,
+				D2A3B22039A8D84CD0E28071 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -209,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				8A2360471F35FE4A00969268 /* ServiceWorker.xcodeproj */,
+				A523DCB4B1CE06CABAD346C3 /* Pods_ServiceWorkerContainer.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -259,6 +266,16 @@
 			path = ../../TestUtilities;
 			sourceTree = "<group>";
 		};
+		D2A3B22039A8D84CD0E28071 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AF70678477B09D6AC7519BA4 /* Pods-ServiceWorkerContainer.debug.xcconfig */,
+				C6A6120AEAAB945DB3FD2467 /* Pods-ServiceWorkerContainer.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -278,6 +295,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8A2360251F35FDCC00969268 /* Build configuration list for PBXNativeTarget "ServiceWorkerContainer" */;
 			buildPhases = (
+				727187B350424A691D27751F /* [CP] Check Pods Manifest.lock */,
 				8A5B361B1F5F57AE009F72AC /* SwiftFormat */,
 				8A5B361D1F5F57C9009F72AC /* SwiftLint */,
 				8A23600C1F35FDCC00969268 /* Sources */,
@@ -302,7 +320,6 @@
 				8A2360161F35FDCC00969268 /* Sources */,
 				8A2360171F35FDCC00969268 /* Frameworks */,
 				8A2360181F35FDCC00969268 /* Resources */,
-				8AF85D891F3A2BE9001B0A87 /* Carthage Framework Copy */,
 			);
 			buildRules = (
 			);
@@ -393,6 +410,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		727187B350424A691D27751F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ServiceWorkerContainer-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		8A5B361B1F5F57AE009F72AC /* SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -420,24 +459,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
-		};
-		8AF85D891F3A2BE9001B0A87 /* Carthage Framework Copy */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/../Carthage/Build/iOS/GCDWebServers.framework",
-				"$(SRCROOT)/../Carthage/Build/iOS/PromiseKit.framework",
-			);
-			name = "Carthage Framework Copy";
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/GCDWebServers.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/PromiseKit.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -608,19 +629,18 @@
 		};
 		8A2360261F35FDCC00969268 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AF70678477B09D6AC7519BA4 /* Pods-ServiceWorkerContainer.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 998P9U5NGJ;
+				DEVELOPMENT_TEAM = KVVACGEX69;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../Carthage/Build/iOS/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ServiceWorkerContainer/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -635,19 +655,18 @@
 		};
 		8A2360271F35FDCC00969268 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C6A6120AEAAB945DB3FD2467 /* Pods-ServiceWorkerContainer.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 998P9U5NGJ;
+				DEVELOPMENT_TEAM = KVVACGEX69;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../Carthage/Build/iOS/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ServiceWorkerContainer/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -662,12 +681,9 @@
 		8A2360291F35FDCC00969268 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = 998P9U5NGJ;
-				FRAMEWORK_SEARCH_PATHS = (
-					"${SRCROOT}/../Carthage/**",
-					"$(inherited)",
-				);
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				DEVELOPMENT_TEAM = KVVACGEX69;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ServiceWorkerContainerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gdnmobilelab.ServiceWorkerContainerTests;
@@ -680,12 +696,9 @@
 		8A23602A1F35FDCC00969268 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = 998P9U5NGJ;
-				FRAMEWORK_SEARCH_PATHS = (
-					"${SRCROOT}/../Carthage/**",
-					"$(inherited)",
-				);
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				DEVELOPMENT_TEAM = KVVACGEX69;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ServiceWorkerContainerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gdnmobilelab.ServiceWorkerContainerTests;

@@ -1,0 +1,40 @@
+PODS:
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
+  - GCDWebServer (3.5.2):
+    - GCDWebServer/Core (= 3.5.2)
+  - GCDWebServer/Core (3.5.2)
+  - GzipSwift (5.0.0)
+  - PromiseKit (6.8.4):
+    - PromiseKit/CorePromise (= 6.8.4)
+    - PromiseKit/Foundation (= 6.8.4)
+    - PromiseKit/UIKit (= 6.8.4)
+  - PromiseKit/CorePromise (6.8.4)
+  - PromiseKit/Foundation (6.8.4):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.8.4):
+    - PromiseKit/CorePromise
+
+DEPENDENCIES:
+  - FMDB
+  - GCDWebServer (~> 3.0)
+  - GzipSwift
+  - PromiseKit (~> 6.8)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - FMDB
+    - GCDWebServer
+    - GzipSwift
+    - PromiseKit
+
+SPEC CHECKSUMS:
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  GCDWebServer: ead88cd14596dd4eae4f5830b8877c87c8728990
+  GzipSwift: 5592f4d62b641e04d06443ba471f8ed76b1363e4
+  PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
+
+PODFILE CHECKSUM: 3219cf45ca77e2b6d11e08c5f50b703cc449d361
+
+COCOAPODS: 1.7.1

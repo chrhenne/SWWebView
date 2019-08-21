@@ -5,6 +5,12 @@
       location = "group:../ServiceWorkerContainer/ServiceWorkerContainer.xcodeproj">
    </FileRef>
    <FileRef
-      location = "container:SWWebView.xcodeproj">
+      location = "group:SWWebView.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../Pods/Pods.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../ServiceWorker/ServiceWorker.xcodeproj">
    </FileRef>
 </Workspace>

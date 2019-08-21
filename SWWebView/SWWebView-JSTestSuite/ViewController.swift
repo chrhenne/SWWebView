@@ -1,7 +1,7 @@
 import UIKit
 import SWWebView
 import WebKit
-import GCDWebServers
+import GCDWebServer
 import ServiceWorkerContainer
 import ServiceWorker
 import PromiseKit
