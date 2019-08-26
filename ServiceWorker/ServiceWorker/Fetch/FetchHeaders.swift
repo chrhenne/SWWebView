@@ -61,6 +61,15 @@ import JavaScriptCore
     public required override init() {
         super.init()
     }
+    
+    public required convenience init(headers: [String : String?]?) {
+        self.init()
+        headers?.forEach { (item) in
+            if item.value != nil {
+                self.append(item.key, item.value!)
+            }
+        }
+    }
 
     fileprivate init(existing: [KeyValuePair]) {
         super.init()

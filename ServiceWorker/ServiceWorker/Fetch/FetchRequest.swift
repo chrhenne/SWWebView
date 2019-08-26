@@ -77,7 +77,7 @@ public enum FetchRequestMode: String {
 
     public init(url: URL) {
         self.url = url
-        self.headers = FetchHeaders()
+        self.headers = FetchHeaders(headers: nil)
         super.init()
     }
 
@@ -93,6 +93,11 @@ public enum FetchRequestMode: String {
         request.referrer = self.referrer
 
         return request
+    }
+    
+    public required convenience init(url: URL, headers: [String : String?]?) {
+        self.init(url: url)
+        self.headers = FetchHeaders(headers: headers)
     }
 
     public required convenience init?(url: JSValue, options: JSValue) {
@@ -115,7 +120,7 @@ public enum FetchRequestMode: String {
 
             // URL.standardized means we lose any /root/../back stuff and get a fully resolved URL
 
-            self.init(url: absoluteURL.standardized.absoluteURL)
+            self.init(url: absoluteURL.standardized.absoluteURL, headers: nil)
             if let optionsObject = options.toObject() as? [String: AnyObject] {
                 try self.applyOptions(opts: optionsObject)
             }

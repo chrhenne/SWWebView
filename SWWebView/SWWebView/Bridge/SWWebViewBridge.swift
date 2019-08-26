@@ -101,9 +101,8 @@ public class SWWebViewBridge: NSObject, WKURLSchemeHandler, WKScriptMessageHandl
             //            if modifiedTask.request.httpMethod == SWWebViewBridge.serviceWorkerRequestMethod {
             //                return try self.startServiceWorkerTask(modifiedTask, webview: swWebView)
             //            }
-
-            let request = FetchRequest(url: requestURL)
-
+            
+            let request = FetchRequest(url: requestURL, headers: modifiedTask.request.allHTTPHeaderFields)
             return firstly { () -> Promise<FetchResponseProtocol?> in
 
                 guard let referrer = modifiedTask.referrer else {
